@@ -65,7 +65,7 @@ class VirtualMachineRegisterInStruct : public ::OMR::VirtualMachineRegister
       _fieldName(fieldName),
       _localNameHoldingStructAddress(localNameHoldingStructAddress)
       {
-      _elementType = b->typeDictionary()->GetFieldType(structName, fieldName)->baseType()->baseType();
+      _elementType = b->typeDictionary()->GetFieldType(structName, fieldName)->baseType();
       _adjustByStep = _elementType->getSize();
       Reload(b);
       }
