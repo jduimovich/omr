@@ -50,7 +50,9 @@ ALL_TESTS = \
             toiltype \
             transactionaloperations \
             union \
-            worklist
+            worklist \
+			shift32 \
+			shift64
 
 # Compile all the tests by default
 all: $(ALL_TESTS)
@@ -66,6 +68,8 @@ common_goal: $(ALL_TESTS)
 	./simple
 	./toiltype
 	./worklist
+	./shift32
+	./shift64
 
 # Additional tests that may not work properly on all platforms
 # If you add to this list, please also add to ALL_TESTS
@@ -256,6 +260,16 @@ simple : libjitbuilder.a Simple.o
 
 Simple.o: src/Simple.cpp src/Simple.hpp
 	$(CXX) -o $@ $(CXXFLAGS) $<
+
+shift32 : libjitbuilder.a Shifts32.o
+	$(CXX) -g -fno-rtti -o $@ Shifts32.o -L. -ljitbuilder -ldl
+shift64 : libjitbuilder.a Shifts64.o
+	$(CXX) -g -fno-rtti -o $@ Shifts64.o -L. -ljitbuilder -ldl
+
+Shifts32.o: src/Shifts.cpp src/Shifts.hpp
+	$(CXX) -o $@ $(CXXFLAGS) -D DO_32=1  $<
+Shifts64.o: src/Shifts.cpp src/Shifts.hpp
+	$(CXX) -o $@ $(CXXFLAGS)  $<
 
 
 structarray : libjitbuilder.a StructArray.o
